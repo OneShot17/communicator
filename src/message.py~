@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+
+#
+# message.py
+# Created by Stephen Brimhall on 1/24/17
+# Copyright (c) SST CTF and Stephen Brimhall 2017. All Rights Reserved.
+#
+# Implements a data structure for messages sent
+#
+
+# Begin system imports
+import json
+# End system imports
+
+# Begin static var declarations
+json_decoder = json.JSONDecoder();
