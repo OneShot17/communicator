@@ -54,6 +54,11 @@ class Server(Thread):
         # Receive server pubkey
         self._servkey = self._socket.recv(4096).decode('utf-8')
 
+    def send_message(self, msg):
+        #Encodes message into json and json into utf-8.
+        #Sends through socket
+        self._socket.send(msg.get_json().encode('utf-8'))
+
     def run(self):
         # Runs the thread
 
@@ -66,11 +71,13 @@ class Server(Thread):
             # TODO: Implement encryption
 
             # Decode message for displaying
-            message = Message.decode_bytes(enc_msg);
+            message = Message.decode_bytes(enc_msg)
 
             # Run display code
-            
-            
+
+            #Log
+            MessageLog.get().post_message(msg)
+
             # Check for end value
             with disconnect_lock:
                 if disconnect:
