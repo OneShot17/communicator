@@ -40,7 +40,8 @@ class Server(Thread):
         try:
             self._socket.connect(self._address)
         except socket.timeout:
-            # If timeout, print error message and exit with error code 1 print("Err: Connection timed out")
+            # If timeout, print error message and exit with error code 1
+            print("Err: Connection timed out")
             os.exit(1);
             return;
 
