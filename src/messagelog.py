@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+"""Implements a message log which represents and controls the message screen."""
+
 #
 # MessageLog.py
 # Created by Stephen Brimhall on 1/27/17
@@ -9,19 +11,21 @@
 
 # Begin system imports
 import curses
-import textwrap
+import os
 # End system imports
 
 # Begin local imports
 from src.threadsafe import ThreadsafeData as Data
+# End local imports
 
+# The most recently created log
 log = None
 
 class MessageLog:
-    # MessageLog -- Represents the message list on-screen.
+    '''Represents the visible log of messages occupying the majority of the screen.'''
 
     def __init__(self, user, logwindow):
-        # Store instance variables
+        '''Initialize this message log with the local username and the log window.'''
 
         # Channel list, needs to be threadsafe because both typing and output
         # threads can access it.
@@ -29,7 +33,7 @@ class MessageLog:
             "general",
             "OneShot17"
         ])
-
+        
         # Store username given on initialization
         self.username = Data(user)
 
@@ -43,7 +47,7 @@ class MessageLog:
         log = self
         
     def post_message(self,message):
-        # Posts a new message to the message board if we're subscribed to it
+        '''Post message to the message log.'''
 
         with self.channels:
 
@@ -107,12 +111,12 @@ class MessageLog:
             self.window.refresh()
                     
     def _wrap(self,string,width):
-        # Hard-newline strings that are too wide to fit in the window.
+        '''Return wrapped string with a maximum line length of width.'''
 
         return textwrap.wrap(string,width)
 
     def _line_length(self, string, sender, channel):
-        # Returns the string with spaces for sender and channel, to _wrap() it.
+        '''Return string with spaces left for the prefix strings.'''
 
         # Store window width
         _,width = self.window.getmaxyx();
@@ -129,6 +133,6 @@ class MessageLog:
 
     @staticmethod
     def get():
-        # Returns the stored log.
+        '''Return the stored global message log'''
 
         return log
